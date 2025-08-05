@@ -41,7 +41,22 @@ Example:
 
 parser <- OptionParser(usage = usage, option_list=option_list)
 args <- parse_args(parser, positional_arguments=0)
+ Check required arguments
+if (is.null(args$options$input) || is.null(args$options$model) || is.null(args$options$features)) {
+  print_help(parser)
+  stop("Error: --input, --model, and --features are required.\n", call.=FALSE)
+}
 
+# Assign variables
+
+output_dir    <- args$options$output
+threads       <- args$options$threads
+tag           <- args$options$tag
+pred_type     <- args$options$`pred-type`
+
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
 # ==============================================================================
 # main function
 # ==============================================================================
